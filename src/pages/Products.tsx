@@ -4,8 +4,8 @@ import {Slider} from '@/components/ui/slider';
 import {Switch} from '@/components/ui/switch';
 import {useAppDispatch, useAppSelector} from "@/redux/hook.ts";
 import {setPriceRange, toggleState} from "@/redux/features/products/productSlice.ts";
-import {useGetProductsQuery} from "@/redux/api/apiSlice.ts";
 import {IProduct} from "@/types/globalTypes.ts";
+import {useGetProductsQuery} from "@/redux/features/products/productApi.ts";
 
 export default function Products() {
    let productsData;

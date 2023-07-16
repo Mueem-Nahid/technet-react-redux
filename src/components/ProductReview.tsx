@@ -3,7 +3,7 @@ import {Button} from './ui/button';
 import {Textarea} from './ui/textarea';
 import {FiSend} from 'react-icons/fi';
 import {ChangeEvent, FormEvent, useState} from "react";
-import {useGetCommentsQuery, usePostCommentMutation} from "@/redux/api/apiSlice.ts";
+import {useGetCommentsQuery, usePostCommentMutation} from "@/redux/features/products/productApi.ts";
 
 interface IProps {
    id: string;
@@ -14,7 +14,10 @@ export default function ProductReview({id}:IProps) {
    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
    // @ts-ignore
    const [postComment, {isLoading, isError, isSuccess}] = usePostCommentMutation() // postComment is a function
-   const {data} = useGetCommentsQuery(id)
+   const {data} = useGetCommentsQuery(id, {
+      refetchOnMountOrArgChange:true,
+      pollingInterval: 30000
+   })
 
    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
