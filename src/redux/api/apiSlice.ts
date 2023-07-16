@@ -13,13 +13,21 @@ export const api = createApi({
          query: (id) => `/product/${id}`,
       }),
       postComment: builder.mutation({
-         query:({id,...payload})=>({ // only one argument can be received
+         query: ({id, ...data}) => ({ // only one argument can be received
             url: `/comment/${id}`,
             method: 'POST',
-            body: payload
+            body: data
          })
-      })
+      }),
+      getComments: builder.query({
+         query: (id) => `/comment/${id}`,
+      }),
    }),
 });
 
-export const {useGetProductsQuery, useSingleProductQuery, usePostCommentMutation} = api
+export const {
+   useGetProductsQuery,
+   useSingleProductQuery,
+   usePostCommentMutation,
+   useGetCommentsQuery
+} = api

@@ -3,14 +3,7 @@ import {Button} from './ui/button';
 import {Textarea} from './ui/textarea';
 import {FiSend} from 'react-icons/fi';
 import {ChangeEvent, FormEvent, useState} from "react";
-import {usePostCommentMutation} from "@/redux/api/apiSlice.ts";
-
-const dummyComments = [
-   'Bhalo na',
-   'Ki shob ghori egula??',
-   'Eta kono product holo ??',
-   '200 taka dibo, hobe ??',
-];
+import {useGetCommentsQuery, usePostCommentMutation} from "@/redux/api/apiSlice.ts";
 
 interface IProps {
    id: string;
@@ -21,14 +14,15 @@ export default function ProductReview({id}:IProps) {
    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
    // @ts-ignore
    const [postComment, {isLoading, isError, isSuccess}] = usePostCommentMutation() // postComment is a function
+   const {data} = useGetCommentsQuery(id)
 
    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const payload ={
          id,
-         data: {comment: inputValue}
+        comment: inputValue
       }
-      console.log(payload,"payload")
+      console.log(payload)
       postComment(payload)
       setInputValue('');
    };
@@ -54,7 +48,7 @@ export default function ProductReview({id}:IProps) {
             </Button>
          </form>
          <div className="mt-10">
-            {dummyComments.map((comment, index) => (
+            {data?.comments?.map((comment:string, index:number) => (
                <div key={index} className="flex gap-3 items-center mb-5">
                   <Avatar>
                      <AvatarImage src="https://github.com/shadcn.png" />
